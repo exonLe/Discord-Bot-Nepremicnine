@@ -6,6 +6,7 @@
 2. run init_create_and_connect_to_DB.py
 3. run init_create_table.py
 4. Insert Discord Bot 'TOKEN' in nepremicnine_bot_discord.py
+5. Run nepremicnine_bot_discord.py
 <br>
 
 You are good to go!
