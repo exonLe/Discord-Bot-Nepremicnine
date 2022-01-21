@@ -2,11 +2,12 @@
 ***
 
 ### First steps:
-1. Downloas SQLite: https://www.sqlite.org/index.html
+1. Downloas SQLite: https://sqlitebrowser.org/dl/
 2. run init_create_and_connect_to_DB.py
-3. run init_create_table.py
+3. run init_create_table_DB.py
 4. Insert Discord Bot 'TOKEN' in nepremicnine_bot_discord.py
-5. Run nepremicnine_bot_discord.py
+5. pip install discord, requests, bs4
+6. run nepremicnine_bot_discord.py
 <br>
 
 You are good to go!
