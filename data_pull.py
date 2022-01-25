@@ -40,7 +40,7 @@ def Neprweb():
 
 # funkcija, ki poišče zadnji oglas (div->seznam->h2->data-href)
 def Neprweb1():
-    url = 'https://www.nepremicnine.net/oglasi-oddaja/ljubljana-mesto/stanovanje/'
+    url = 'https://www.nepremicnine.net/oglasi-oddaja/ljubljana-mesto/stanovanje/?s=16'
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, "html.parser")
