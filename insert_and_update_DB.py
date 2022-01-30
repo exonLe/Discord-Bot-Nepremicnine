@@ -1,11 +1,11 @@
 import sqlite3
 from data_pull import Neprweb1, nepremicne_web
 
+nepr_link = Neprweb1() #Link to the latest apartment
 
+'''
 ################## INSERT DATA INTO TABLE - uncomment for fresh table ########################################
 
-nepr_link = Neprweb1() #Link to the latest apartment
-'''
 def insertVaribleIntoTable(id, link):
     try:
         sqliteConnection = sqlite3.connect('SQLite_Python.db') #Connect to DB
@@ -13,7 +13,7 @@ def insertVaribleIntoTable(id, link):
         print("Successfully Connected to SQLite")
 
         #Insert into table - parameters
-        sqlite_insert_with_param = """INSERT INTO nepremicnine
+        sqlite_insert_with_param = """INSERT INTO nepremicnine1
                             (id, link) 
                             VALUES (?, ?);"""
 
@@ -21,7 +21,7 @@ def insertVaribleIntoTable(id, link):
         data_tuple = (id, link)
         cursor.execute(sqlite_insert_with_param, data_tuple) #Run the SQL query and return the result
         sqliteConnection.commit() #Commit changes
-        print("Record inserted successfully into nepremicnine table ", cursor.rowcount)
+        print("Record inserted successfully into nepremicnine1 table ", cursor.rowcount)
 
         cursor.close()
 
@@ -34,8 +34,8 @@ def insertVaribleIntoTable(id, link):
 
 ##DATA
 insertVaribleIntoTable(None, nepr_link) #Inserts Link with new ID into table
-'''
 
+'''
 ################## UPDATE DATA IN TABLE ########################################
 
 def updateSqliteTable(id, link):
@@ -44,7 +44,7 @@ def updateSqliteTable(id, link):
         cursor = sqliteConnection.cursor()
         print("Connected to SQLite")
 
-        sql_update_query = """UPDATE nepremicnine SET link = ? where id = ?"""
+        sql_update_query = """UPDATE nepremicnine1 SET link = ? where id = ?"""
         data = (link, id)
         cursor.execute(sql_update_query, data)
         sqliteConnection.commit()

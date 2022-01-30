@@ -1,6 +1,6 @@
 import discord
 from data_pull import Neprweb, Neprweb1, nepremicne_web
-from read_DB import readed_link
+from read_DB import read_link
 from insert_and_update_DB import updateSqliteTable
 import asyncio 
 
@@ -34,7 +34,7 @@ class MyClient(discord.Client):
         # Get from data_pull, the last apartment that was published 
         if message.content == 'stanovanje':
             zadnje_stanovanje = Neprweb1()
-            if zadnje_stanovanje == readed_link: #Check if link is the same
+            if zadnje_stanovanje == read_link(): #Check if link is the same
                 await message.channel.send(zadnje_stanovanje) #Send message
             else:
                 updateSqliteTable(1, zadnje_stanovanje) #Update table
@@ -45,14 +45,17 @@ class MyClient(discord.Client):
         if f'$realtime' in message_content: #Write $realtime to chat bot, to get realtime feedback
             zadnje_stanovanje = Neprweb1()
             while True:    
-                if zadnje_stanovanje == readed_link: #Check if link is the same
-                    await asyncio.sleep(3600)
+                if zadnje_stanovanje == read_link(): #Check if link is the same
+                    await asyncio.sleep(600)
+                    #print("stara nepremicnina link \n")
+                    zadnje_stanovanje = Neprweb1()
                 else:
                     updateSqliteTable(1, zadnje_stanovanje) #Update table
                     await message.channel.send('nova nepremicnina link')
                     await message.channel.send(zadnje_stanovanje) #Send a message back to the user in the same channel 
-                    await asyncio.sleep(3600)
+                    await asyncio.sleep(600)
                     print("nova nepremicnina link \n")
+                    zadnje_stanovanje = Neprweb1()
         
 
 

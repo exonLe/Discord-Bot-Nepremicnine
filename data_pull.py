@@ -23,7 +23,7 @@ def nepremicne_web():
 
 # funkcija, ki poišče vse oglase (div->seznam->h2->data-href)
 def Neprweb():
-    url = 'https://www.nepremicnine.net/oglasi-oddaja/ljubljana-mesto/stanovanje/'
+    url = 'https://www.nepremicnine.net/oglasi-oddaja/ljubljana-mesto/stanovanje/?s=16'
     response = requests.get(url)
 
     soup = BeautifulSoup(response.text, "html.parser")
@@ -50,11 +50,11 @@ def Neprweb1():
     for link in container.findAll('h2')[:1]:
         #print(link.get('data-href'))
         addlink = link.get('data-href')
-        print('https://www.nepremicnine.net'+addlink)
+        #print('https://www.nepremicnine.net'+addlink)
         download_url = 'https://www.nepremicnine.net/'+addlink
         return download_url         
 
-# debug: Neprweb1()
+#debug: Neprweb1()
 
 
 
