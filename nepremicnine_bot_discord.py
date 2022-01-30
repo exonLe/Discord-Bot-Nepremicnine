@@ -1,6 +1,7 @@
 try:
     from discord import Client
 except ModuleNotFoundError:
+
     class Client:
         def run(self, _):
             print("ERROR: Unable to import discord Client")
@@ -8,10 +9,8 @@ except ModuleNotFoundError:
 
 
 import asyncio
-
 from data_pull import Neprweb1
-from read_DB import read_link
-from insert_and_update_DB import updateSqliteTable
+from DB import updateSqliteTable, read_link
 import os
 
 TOKEN = ""
@@ -22,7 +21,7 @@ if TOKEN is None:
 
 
 class MyClient(Client):
-    """######  MAKE BOT ONLINE #######"""
+    """MAKE BOT ONLINE"""
 
     async def on_ready(self):
         print(f"{client.user} is now online!")
