@@ -10,8 +10,9 @@ except ModuleNotFoundError:
 
 import asyncio
 from data_pull import Neprweb1
-from DB import updateSqliteTable, read_link
+from DB import DB_SQL
 import os
+
 
 TOKEN = ""
 if "TOKEN" in os.environ:
@@ -46,8 +47,8 @@ class MyClient(Client):
         # Get from data_pull, the last apartment that was published
         if message.content == "stanovanje":
             zadnje_stanovanje = Neprweb1()
-            if zadnje_stanovanje != read_link():  # Check if link is the same
-                updateSqliteTable(1, zadnje_stanovanje)  # Update table
+            if zadnje_stanovanje != db.read_link():  # Check if link is the same
+                db.updateSqliteTable(zadnje_stanovanje)  # Update table
             await message.channel.send(
                 zadnje_stanovanje
             )  # Send a message back to the user in the same channel
@@ -58,8 +59,8 @@ class MyClient(Client):
         ):  # Write $realtime to chat bot, to get realtime feedback
             while True:
                 zadnje_stanovanje = Neprweb1()
-                if zadnje_stanovanje != read_link():  # Check if link is the same
-                    updateSqliteTable(1, zadnje_stanovanje)  # Update table
+                if zadnje_stanovanje != db.read_link():  # Check if link is the same
+                    db.updateSqliteTable(1, zadnje_stanovanje)  # Update table
                     await message.channel.send("nova nepremicnina link")
                     await message.channel.send(
                         zadnje_stanovanje
@@ -69,8 +70,10 @@ class MyClient(Client):
 
 
 if __name__ == "__main__":
+    db = DB_SQL()
     client = MyClient()
     client.run(TOKEN)
+
 
 # vsako uro (1h) naredi request in pogleda, če je link, ki ga dobi isti(pogleda v bazo-sqllite), \
 # (if) če je isti ne naredi nič, če je nov, ga pošlje.
