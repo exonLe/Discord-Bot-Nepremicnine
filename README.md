@@ -2,12 +2,20 @@
 ***
 
 ### First steps:
-1. Downloas SQLite: https://sqlitebrowser.org/dl/
-2. run init_create_and_connect_to_DB.py
-3. run init_create_table_DB.py
-4. Insert Discord Bot 'TOKEN' in nepremicnine_bot_discord.py
-5. pip install discord, requests, bs4
-6. run nepremicnine_bot_discord.py
+
+1) Install requirements
+``` shell
+$ pip install -r requirements.txt
+```
+
+2) Export discord token ID to environment variable
+``` shell
+$ TOKEN='discord token (password)'
+```
+3) Run bot
+``` shell
+$ python nepremicnine_bot_discord.py
+```
 <br>
 
 You are good to go!
@@ -18,7 +26,7 @@ You are good to go!
 
 ### Basic guide when you run it:
 
-_Type into Bot chat:_ 
+_Type into Bot chat:_
 * $realtime (Bot sends link, if a new apartment shows up on a real-estate webpage)
 * info (Bot sends option list, what can you ask him)
 * nepremicnine (Bot sends general link of our real-estate website)

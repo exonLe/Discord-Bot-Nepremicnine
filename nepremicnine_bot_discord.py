@@ -1,3 +1,7 @@
+""" vsako uro (1h) naredi request in pogleda, če je link, ki ga dobi isti(pogleda v bazo-sqllite), \
+    (if) če je isti ne naredi nič, če je nov, ga pošlje.
+"""
+
 try:
     from discord import Client
 except ModuleNotFoundError:
@@ -73,7 +77,3 @@ if __name__ == "__main__":
     db = DB_SQL()
     client = MyClient()
     client.run(TOKEN)
-
-
-# vsako uro (1h) naredi request in pogleda, če je link, ki ga dobi isti(pogleda v bazo-sqllite), \
-# (if) če je isti ne naredi nič, če je nov, ga pošlje.

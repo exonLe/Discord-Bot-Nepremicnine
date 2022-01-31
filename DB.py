@@ -1,3 +1,4 @@
+""" For database interaction """
 import sqlite3
 
 
@@ -36,6 +37,7 @@ class DB_SQL:
             print("Failed to update sqlite table", error)
 
     def read_link(self):
+        """Returns last link in database if existing"""
         try:
             cursor = self.connection.cursor()
             cursor.execute(
