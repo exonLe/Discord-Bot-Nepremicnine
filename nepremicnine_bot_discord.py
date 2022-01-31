@@ -7,29 +7,73 @@ try:
 except ModuleNotFoundError:
 
     class Client:
-        def run(self, _):
+        """Dummy class if discord is not installed"""
+
+        def run(*_):
+            """Empty fn"""
             print("ERROR: Unable to import discord Client")
             return _
 
 
 import asyncio
-from data_pull import Neprweb1
-from DB import DB_SQL
 import os
+import sys
+import sqlite3
+
+from data_pull import Neprweb1
 
 
-TOKEN = ""
-if "TOKEN" in os.environ:
-    TOKEN = os.environ["TOKEN"]
-if TOKEN is None:
-    print("ERROR: insert token or pass by env variable")
+class DB_SQL:
+    """Class for insearting and reading in and from SQLite database"""
+
+    def __init__(self, nid=1):
+        self.nid = nid
+        self.connection = sqlite3.connect("SQLite_Python.db")
+
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(
+                """CREATE TABLE IF NOT EXISTS nepremicnine(
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                link TEXT NOT NULL);"""
+            )
+
+        except sqlite3.Error as error:  # In case of an error
+            print("Error while creating a sqlite table", error)
+
+    def __del__(self):
+        self.connection.close()
+
+    def update_table(self, link):
+        """Update data in DB"""
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute(
+                """UPDATE nepremicnine1 SET link = ? where id = ?""",
+                (link, self.nid),
+            )
+            self.connection.commit()
+
+        except sqlite3.Error as error:
+            print("Failed to update sqlite table", error)
+
+    def read_link(self):
+        """Returns last link in database if existing"""
+        try:
+            cursor = self.connection.cursor()
+            cursor.execute("""SELECT * from nepremicnine1 where id = ?""", (self.nid,))
+            record = cursor.fetchone()
+            return record[1]
+        except sqlite3.Error as error:
+            print("Failed to read single row from sqlite table", error)
+            return ""
 
 
 class MyClient(Client):
     """MAKE BOT ONLINE"""
 
     async def on_ready(self):
-        print(f"{client.user} is now online!")
+        print(f"{self.user} is now online!")
 
     async def on_message(self, message):
         # Don't respond to ourselves - we don't want to loop bot
@@ -52,7 +96,7 @@ class MyClient(Client):
         if message.content == "stanovanje":
             zadnje_stanovanje = Neprweb1()
             if zadnje_stanovanje != db.read_link():  # Check if link is the same
-                db.updateSqliteTable(zadnje_stanovanje)  # Update table
+                db.update_table(zadnje_stanovanje)  # Update table
             await message.channel.send(
                 zadnje_stanovanje
             )  # Send a message back to the user in the same channel
@@ -64,7 +108,7 @@ class MyClient(Client):
             while True:
                 zadnje_stanovanje = Neprweb1()
                 if zadnje_stanovanje != db.read_link():  # Check if link is the same
-                    db.updateSqliteTable(1, zadnje_stanovanje)  # Update table
+                    db.update_table(zadnje_stanovanje)  # Update table
                     await message.channel.send("nova nepremicnina link")
                     await message.channel.send(
                         zadnje_stanovanje
@@ -74,6 +118,10 @@ class MyClient(Client):
 
 
 if __name__ == "__main__":
+    if "TOKEN" not in os.environ:
+        print("ERROR: insert token or pass by env variable")
+        sys.exit(1)
+
     db = DB_SQL()
     client = MyClient()
-    client.run(TOKEN)
+    client.run(os.environ["TOKEN"])
